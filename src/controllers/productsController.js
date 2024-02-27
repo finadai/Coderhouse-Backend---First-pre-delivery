@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 
-const productsFilePath = '../src/data/products.json';
+const productsFilePath = './src/data/products.json';
 
 exports.getAllProducts = (req, res) => {
     const productsData = fs.readFileSync(productsFilePath);
@@ -24,6 +24,9 @@ exports.getProductById = (req, res) => {
 exports.addProduct = (req, res) => {
     const newProduct = req.body;
     newProduct.id = uuidv4();
+    if (typeof newProduct.status === 'undefined') {
+        newProduct.status = true;
+    }
     const productsData = fs.readFileSync(productsFilePath);
     const products = JSON.parse(productsData);
     products.push(newProduct);
@@ -33,7 +36,8 @@ exports.addProduct = (req, res) => {
 
 exports.updateProduct = (req, res) => {
     const { pid } = req.params;
-    const updatedProduct = req.body;
+    const { name, price } = req.body; 
+    const updatedProduct = { name, price }; 
     const productsData = fs.readFileSync(productsFilePath);
     let products = JSON.parse(productsData);
     const index = products.findIndex(p => p.id === pid);

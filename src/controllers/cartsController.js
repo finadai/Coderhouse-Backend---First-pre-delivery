@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 
-const cartsFilePath = '../src/data/carts.json';
+const cartsFilePath = './src/data/carts.json';
 
 exports.createCart = (req, res) => {
     const newCart = {
